@@ -1,4 +1,5 @@
-﻿Add-PSSnapin "Microsoft.SharePoint.PowerShell"   
+###This script lists out all site columns containing $ColName###
+Add-PSSnapin "Microsoft.SharePoint.PowerShell"   
 $ColName = "Create"
 $ColUsageCount = 0
 

@@ -1,4 +1,5 @@
-﻿$web = "http://sp"
+﻿#Lists out event receivers of all lists within a web#
+$web = "http://sp"
 Write-Host "List event receivers for web $web" -ForegroundColor Blue -BackgroundColor White
 $web = Get-SPWeb $web
 

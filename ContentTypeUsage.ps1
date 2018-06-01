@@ -1,4 +1,5 @@
-﻿Add-PSSnapin "Microsoft.SharePoint.PowerShell"
+﻿#Script to list out content type usage, good to figure who's using a content type, is it a list or web#
+Add-PSSnapin "Microsoft.SharePoint.PowerShell"
 $ctName = "Emp"
 $CTListUsageCount = 0
 $CTSiteUsageCount = 0

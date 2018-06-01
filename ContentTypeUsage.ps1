@@ -7,12 +7,12 @@ $CTSiteUsageCount = 0
 Write-Host "Looking for content type '$ctName'"
 
 # Go through all webapps, sites and webs to list a content type usage
-Get-SPWebApplication | %{$_.Sites} | %{`
+Get-SPWebApplication | ForEach-Object{$_.Sites} | ForEach-Object{`
  
     #Loop through webs
     foreach ($web in $_.AllWebs)  
     { 
-        $CTs = $web.ContentTypes | ?{$_.Name -eq $ctName}
+        $CTs = $web.ContentTypes | Where-Object{$_.Name -eq $ctName}
         
         foreach($ct in $CTs)
         {

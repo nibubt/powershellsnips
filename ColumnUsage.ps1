@@ -6,7 +6,7 @@ $ColUsageCount = 0
 Write-Host "Looking for usage of column containing word: '$ColName'" -BackgroundColor Blue
 
 # Go through all content types under a web to list column usage
-Get-SPWebApplication | %{$_.Sites} | %{`
+Get-SPWebApplication | ForEach-Object{$_.Sites} | ForEach-Object{`
 
     #Loop through webs
     foreach ($web in $_.AllWebs)  
@@ -15,7 +15,7 @@ Get-SPWebApplication | %{$_.Sites} | %{`
         $AllCTs = $web.ContentTypes
         foreach($CT in $AllCts)
         {
-            $Links = $CT.FieldLinks | ? {$_.Name -imatch $ColName}
+            $Links = $CT.FieldLinks | Where-Object {$_.Name -imatch $ColName}
             if($Links) {Write-Host "`t|___Used in CT: $($CT.Name)" -ForegroundColor Gray}
             foreach($Lnk in $Links)
             {

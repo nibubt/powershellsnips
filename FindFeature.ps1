@@ -2,7 +2,7 @@
 
 function WriteFeature($features, $tabs)
 {
-    if($features -ne $null)
+    if($null -ne $features)
     {
         ForEach($feature in $Features)
         {

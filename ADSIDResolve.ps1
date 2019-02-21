@@ -9,7 +9,7 @@ $ADSidResolve = {
 $username = Read-Host -Prompt "Please enter username: "
 $pwd = Read-Host -Prompt "Please enter your password: " -AsSecureString
 $cred = New-Object System.Management.Automation.PSCredential($username,$pwd)
-if($cred -eq $null)
+if($null -eq $cred)
 {
     return;
 }

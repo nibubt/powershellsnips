@@ -24,7 +24,7 @@ $totalLines = (Get-Content -Path $filePath | Measure-Object -Line).Lines
 $alljobs = @()
 $reader = [System.IO.File]::OpenText("$filePath")
 $curLine = 0
-while($null -ne ($line = $reader.ReadLine())) 
+while($null -ne ($line = $reader.ReadLine().Trim())) 
 {
     ++$curLine;
     $continue = $false

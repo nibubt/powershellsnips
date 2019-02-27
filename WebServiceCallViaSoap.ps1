@@ -3,7 +3,7 @@ $domain = "kesar"
 $user = "Administrator"
 $fqusername = "$domain\$user"
 $pwdstring = Read-Host -Prompt "Please enter password for $fqusername : " -AsSecureString
-if($pwdstring -eq $null)
+if($null -eq $pwdstring)
 {
     Write-Error "Invalid password entered"
     return
@@ -12,7 +12,6 @@ $creds = New-Object System.Management.Automation.PSCredential($fqusername, $pwds
 
 # Prepare SOAP message
 $url = "http://nt-sp2013-26/_vti_bin/lists.asmx"
-$ct = "text/xml"
 $soapbody = @"
 <?xml version="1.0" encoding="utf-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -30,9 +29,8 @@ $headers.Add("Content-Length", $soapbody.Length);
 $headers.Add("Transfer-Encoding", "Chunked");
 
 #Send the request
-$sessionvar = $null
 $lists = Invoke-WebRequest -Method Post -Uri $url -Headers $headers -Body $soapbody -SessionVariable sessionvar -Credential $creds
 
 #Dump output
 $xml = [xml]$lists.Content
-$xml.Envelope.Body.GetListCollectionResponse.GetListCollectionResult.Lists | %{$_.List} | Select Title, ID | ft -AutoSize
+$xml.Envelope.Body.GetListCollectionResponse.GetListCollectionResult.Lists | ForEach-Object{$_.List} | Select-Object Title, ID | Format-Table -AutoSize

@@ -19,3 +19,18 @@ $users = $null
 $groups = $null
 $vGroups = $null
 $listproxy.GetSite([ref]$metadata, [ref]$Webs, [ref]$users, [ref]$groups, [ref]$vGroups)
+
+Write-Host "MetaData:" -NoNewline
+$metadata
+
+Write-Host "Webs:"
+$webs
+
+Write-Host "Users:"
+$users
+
+Write-Host "Groups:"
+$groups
+
+Write-Host "vGroups:"
+$vGroups

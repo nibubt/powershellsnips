@@ -1,5 +1,5 @@
 #Service URL
-$url = "http://nt-sp2013-26/_vti_bin/SiteData.asmx"
+$url = "http://servername/_vti_bin/SiteData.asmx"
 $domain = "kesar"
 $user = "administrator"
 $fqusername = "$domain\$user"

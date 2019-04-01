@@ -16,7 +16,7 @@ Set-SPLogLevel -TraceSeverity VerboseEx
 $log_starttime = Get-Date
 
 Bullet
-$swallow = Read-Host -Prompt "Please press 'Enter' to stop VerboseEx log collection"
+$null = Read-Host -Prompt "Please press 'Enter' to stop VerboseEx log collection"
 
 #log collection end time
 $log_endtime = Get-Date
@@ -28,7 +28,7 @@ Clear-SPLogLevel
 
 #Write to file, Merge log files
 Bullet
-$log_filename = "$([Environment]::GetFolderPath("Desktop"))\MergedLog_$(Get-Date -F o | foreach {$_ -replace ':', '.'}).log"
+$log_filename = "$([Environment]::GetFolderPath("Desktop"))\MergedLog_$(Get-Date -F o | ForEach-Object {$_ -replace ':', '.'}).log"
 Write-Host "Merging log files from '$($log_starttime)' to '$($log_endtime)' to log file: '$($log_filename)'"
 Merge-SPLogFile -StartTime $log_starttime -EndTime $log_endtime -Path "$($log_filename)"
 

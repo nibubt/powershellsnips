@@ -13,6 +13,8 @@ $creds = New-Object System.Management.Automation.PSCredential($fqusername, $pwds
 #Prepare SOAP message
 $url = "http://server/_vti_bin/sitedata.asmx"
 
+Write-Host "URL: $url" -ForegroundColor Green
+
 $soapbody = @"
 <?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">

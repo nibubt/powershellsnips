@@ -1,7 +1,10 @@
 #Service URL
 $url = "http://servername/_vti_bin/SiteData.asmx"
-$domain = "kesar"
-$user = "administrator"
+Write-Host "URL: $url" -ForegroundColor Green
+
+#credentials, input user name if needed
+$domain = Read-Host -Prompt "Please enter domain"
+$user = Read-Host -Prompt "Please enter username"
 $fqusername = "$domain\$user"
 $pwdstring = Read-Host -Prompt "Please enter password for $fqusername" -AsSecureString
 if($null -eq $pwdstring)
@@ -34,3 +37,7 @@ $groups
 
 Write-Host "vGroups:"
 $vGroups
+
+$lists = $null
+$listproxy.GetListCollection([ref]$lists)
+$lists | Format-Table

@@ -1,8 +1,8 @@
-# Verify file status #
 $maxparalleljobs = 200
 $continue        = $false
 $filePath        = "c:\sids.txt" #make sure this file contains SIDs that needs to be resolved.
 
+# Verify file status #
 if((Test-Path $filePath) -eq $false)
 {
     Write-Error -Message "File $filePath does not exist. Please correct file path before using this script. Exiting!"

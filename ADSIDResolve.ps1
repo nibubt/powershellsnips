@@ -1,16 +1,24 @@
-# Verify file status #
-$maxparalleljobs = 200
-$continue        = $false
-$filePath        = "c:\sids.txt" #make sure this file contains SIDs that needs to be resolved.
+$filePath = "C:\sids.txt" #make sure this file contains SIDs that needs to be resolved.
 
+# Verify file status #
 if((Test-Path $filePath) -eq $false)
 {
     Write-Error -Message "File $filePath does not exist. Please correct file path before using this script. Exiting!"
     return
 }
 
+#Read in UserName and Password securely
+$username = Read-Host -Prompt "Please enter username: "
+$pwd = Read-Host -Prompt "Please enter your password: " -AsSecureString
+$cred = New-Object System.Management.Automation.PSCredential($username,$pwd)
+if($null -eq $cred)
+{
+    Write-Error -Message "Invalid credentials! Exiting!"
+    return;
+}
+
 # Count of lines to show progress
-$sidlines = Get-Content -Path $filePath
+$sidlines = Get-Content -Path $filePath | ForEach-Object{$_.Trim()}
 $totalLines = ( $sidlines | Measure-Object -Line).Lines
 
 if(0 -ge $totalLines)
@@ -29,40 +37,14 @@ $ADSidResolve = {
     $objUser.Value
 }
 
-#Read in UserName and Password securely
-$username = Read-Host -Prompt "Please enter username: "
-$pwd = Read-Host -Prompt "Please enter your password: " -AsSecureString
-$cred = New-Object System.Management.Automation.PSCredential($username,$pwd)
-if($null -eq $cred)
-{
-    Write-Error -Message "Invalid credentials! Exiting!"
-    return;
-}
-
 $alljobs = @()
 $curLine = 0
 foreach($line in $sidlines)
 {
-    #Trim off spaces from either sides of read in string
-    $line = $line.Trim()
-
     ++$curLine;
-    $continue = $false
-    while($continue -eq $false)
-    {
-        $continue = ((Get-Job -State "Running").Count -lt $maxparalleljobs)
-        if($continue)
-        {
-            $JobName = "PSJOB-SIDResolve-$line"    
-            $alljobs += Start-Job -ScriptBlock $ADSIDResolve -Name $JobName -Credential $cred -ArgumentList $line
-        }
-        else
-        {
-            #Yield control for half a second
-            #Start-Sleep -Milliseconds 10
-        }
-    }
-
+    $JobName = "PSJOB-SIDResolve-$line"    
+    $alljobs += Start-Job -ScriptBlock $ADSIDResolve -Name $JobName -Credential $cred -ArgumentList $line
+  
     $PercentComplete = [math]::round((($curLine/$totalLines)*100),0)
     Write-Progress -Activity "Progress resolving SID... (Current line: $curLine of $totalLines)" -Status "$PercentComplete% Complete:" -PercentComplete $PercentComplete
 }
@@ -71,4 +53,4 @@ foreach($line in $sidlines)
 Write-Host "Waiting on jobs to finish..."
 Get-Job | Wait-Job | Receive-Job
 
-Remove-Variable alljobs,maxparalleljobs
+Remove-Variable alljobs,sidlines

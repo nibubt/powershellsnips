@@ -11,7 +11,6 @@ $claims.Add(((New-Object System.Security.Claims.Claim("Primary Skill", "C++"))))
 $claims.Add(((New-Object System.Security.Claims.Claim([System.Security.Claims.ClaimTypes]::Country, "India"))))
 $claims.Add(((New-Object System.Security.Claims.Claim([System.Security.Claims.ClaimTypes]::Role, "CEO"))))
 
-
 # Instantiate claims identity object
 $cid = New-Object System.Security.Claims.ClaimsIdentity($claims, "Password")
 

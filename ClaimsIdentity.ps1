@@ -12,7 +12,7 @@ $claims.Add(((New-Object System.Security.Claims.Claim([System.Security.Claims.Cl
 $claims.Add(((New-Object System.Security.Claims.Claim([System.Security.Claims.ClaimTypes]::Role, "CEO"))))
 
 # Instantiate claims identity object
-$cid = New-Object System.Security.Claims.ClaimsIdentity($claims, "Password")
+$cid = New-Object System.Security.Claims.ClaimsIdentity($claims, [System.Security.Claims.AuthenticationTypes]::Password)
 
 # Assign principal
 [System.Threading.Thread]::CurrentPrincipal =  New-Object System.Security.Claims.ClaimsPrincipal($cid)

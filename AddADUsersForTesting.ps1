@@ -20,7 +20,7 @@ $NeverExpires = [System.DateTime]::MaxValue
 #Change group names if needed
 $groups = @("Group1","Group2","Group3")
 $groups | ForEach-Object {
-   New-ADGroup -Name $_ -SamAccountName $_ -Description "Nibu's Security group" -DisplayName $_ -GroupCategory Security -GroupScope DomainLocal -PassThru
+   New-ADGroup -Name $_ -SamAccountName $_ -Description "Security group" -DisplayName $_ -GroupCategory Security -GroupScope DomainLocal -PassThru
 }
 
 $userscsv | ForEach-Object{
